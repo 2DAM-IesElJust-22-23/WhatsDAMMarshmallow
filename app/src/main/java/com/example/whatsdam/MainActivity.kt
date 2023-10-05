@@ -12,6 +12,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.ieseljust.whatsdam.MessagesWindow
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -31,10 +33,10 @@ class MainActivity : AppCompatActivity() {
             var ipstr:String = iptext.text.toString()
 
             var nick=nickText.text.toString()
-            Log.d("AAAAAA",ipstr)
+
             if (nick!="" && isNumericAddress(ipstr)){
                 //var ip= parseNumericAddress(ipstr)
-                val intent = Intent(baseContext,MessagesWindow::class.java)
+                val intent = Intent(baseContext, MessagesWindow::class.java)
                 startActivity(intent)
 
             }

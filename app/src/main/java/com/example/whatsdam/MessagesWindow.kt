@@ -1,4 +1,4 @@
-package com.example.whatsdam
+package com.ieseljust.whatsdam
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,10 +7,17 @@ import com.example.myapplication.databinding.ActivityMessagesWindowBinding
 class MessagesWindow : AppCompatActivity() {
     private lateinit var binding: ActivityMessagesWindowBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding=ActivityMessagesWindowBinding.inflate(layoutInflater)
+        binding = ActivityMessagesWindowBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        val view = binding.root
+        setContentView(view)
 
+        val sendMessage= binding.sendMessage
+        val messageText=binding.MessageText
+        sendMessage.setOnClickListener{
+            messageText.setText("")
+
+        }
 
     }
 }
