@@ -12,12 +12,11 @@ class MessagesWindow : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val sendMessage= binding.sendMessage
-        val messageText=binding.MessageText
+        val sendMessage = binding.sendMessage
+        val messageText = binding.MessageText
         sendMessage.setOnClickListener{
-            messageText.setText("")
+            messageText.text.clear()
 
         }
-
     }
 }
