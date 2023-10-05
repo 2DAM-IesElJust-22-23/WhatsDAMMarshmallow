@@ -14,7 +14,17 @@ class MessagesWindow : AppCompatActivity() {
 
         val sendMessage = binding.sendMessage
         val messageText = binding.MessageText
+
+        //Capturar variables anteriores
+        val nick = intent.getStringExtra("nickname")
+        val server = intent.getStringExtra("server")
+
+        //textView del estado de conexión
+        val connectionTextView =binding.connectionInfoTextView
+        connectionTextView.text = "Connect a $server com $nick"
+
         sendMessage.setOnClickListener{
+
             messageText.text.clear()
 
         }

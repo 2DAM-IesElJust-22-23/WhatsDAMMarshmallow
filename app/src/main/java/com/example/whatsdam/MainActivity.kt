@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
 
             if (nick!="" && isNumericAddress(ipstr)){
                 //var ip= parseNumericAddress(ipstr)
+                intent.putExtra("server",ipstr)
+                intent.putExtra("nickname",nick)
                 val intent = Intent(baseContext, MessagesWindow::class.java)
                 startActivity(intent)
 
