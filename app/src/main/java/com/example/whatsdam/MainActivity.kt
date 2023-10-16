@@ -1,16 +1,11 @@
 package com.example.whatsdam
 
-import android.content.Context
 import android.content.Intent
 import android.net.InetAddresses.isNumericAddress
-import android.net.InetAddresses.parseNumericAddress
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Telephony.Mms.Intents
-import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.ieseljust.whatsdam.MessagesWindow
 
@@ -22,12 +17,9 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         val nickText=binding.nickNameText
         val connBut=binding.buttonConnect
         val iptext=binding.serverAddressText
-
-
 
         connBut.setOnClickListener{
             var ipstr:String = iptext.text.toString()
@@ -43,9 +35,5 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-
-
-
-
     }
 }
