@@ -39,8 +39,6 @@ class MessagesWindow : AppCompatActivity() {
                     // Hacer scroll automático al último elemento añadido
                     recyclerView.smoothScrollToPosition(lastIndex)
                 }
-
-                messageText.text.clear()
             }
         }
 
