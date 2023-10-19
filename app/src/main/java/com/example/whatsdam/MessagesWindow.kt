@@ -31,9 +31,15 @@ class MessagesWindow : AppCompatActivity() {
             if (newMessage.isNotEmpty()) {
                 if (nick != null) {
                     MessageDataSet.addMessage(nick, newMessage)
+                    adapter.notifyDataSetChanged()
+
+                    // Obtener el índice del último elemento
+                    val lastIndex = MessageDataSet.messages.size - 1
+
+                    // Hacer scroll automático al último elemento añadido
+                    recyclerView.smoothScrollToPosition(lastIndex)
                 }
 
-                adapter.notifyDataSetChanged()
                 messageText.text.clear()
             }
         }
