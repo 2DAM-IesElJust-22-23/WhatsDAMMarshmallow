@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.ieseljust.whatsdam.MessagesWindow
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
@@ -22,9 +21,9 @@ class MainActivity : AppCompatActivity() {
         val iptext=binding.serverAddressText
 
         connBut.setOnClickListener{
-            var ipstr:String = iptext.text.toString()
+            val ipstr:String = iptext.text.toString()
 
-            var nick=nickText.text.toString()
+            val nick=nickText.text.toString()
 
             if (nick!="" && isNumericAddress(ipstr)){
                 //var ip= parseNumericAddress(ipstr)

@@ -1,10 +1,8 @@
-package com.ieseljust.whatsdam
+package com.example.whatsdam
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.myapplication.databinding.ActivityMessagesWindowBinding
-import com.example.whatsdam.MessageDataSet
-import com.example.whatsdam.MessageAdapter
 
 class MessagesWindow : AppCompatActivity() {
     private lateinit var binding: ActivityMessagesWindowBinding
@@ -31,10 +29,15 @@ class MessagesWindow : AppCompatActivity() {
         sendMessage.setOnClickListener {
             val newMessage = messageText.text.toString()
             if (newMessage.isNotEmpty()) {
-                MessageDataSet.addMessage(nick, newMessage)
+                if (nick != null) {
+                    MessageDataSet.addMessage(nick, newMessage)
+                }
+
                 adapter.notifyDataSetChanged()
                 messageText.text.clear()
             }
         }
+
+
     }
 }
