@@ -6,7 +6,8 @@
     import com.example.myapplication.R
     import java.text.DateFormat
     import java.util.Date
-    
+    import java.
+
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val usernameTextView: TextView = itemView.findViewById(R.id.msg_text_usuari)
         private val messageTextView: TextView = itemView.findViewById(R.id.msg_text)
