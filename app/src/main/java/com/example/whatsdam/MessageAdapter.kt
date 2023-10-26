@@ -3,13 +3,13 @@ package com.example.whatsdam
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.ActivityMessagesWindowBinding
+import com.example.myapplication.databinding.MyMsgViewholderBinding
 
 class MessageAdapter : RecyclerView.Adapter<MessageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ActivityMessagesWindowBinding.inflate(inflater, parent, false)
+        val binding = MyMsgViewholderBinding.inflate(inflater, parent, false)
         return MessageViewHolder(binding.root)
     }
 

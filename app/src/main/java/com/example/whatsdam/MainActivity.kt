@@ -22,17 +22,15 @@ class MainActivity : AppCompatActivity() {
 
         connBut.setOnClickListener{
             val ipstr:String = iptext.text.toString()
-
             val nick=nickText.text.toString()
 
             if (nick!="" && isNumericAddress(ipstr)){
-                //var ip= parseNumericAddress(ipstr)
+                val intent = Intent(baseContext, MessagesWindow::class.java)
                 intent.putExtra("server",ipstr)
                 intent.putExtra("nickname",nick)
-                val intent = Intent(baseContext, MessagesWindow::class.java)
                 startActivity(intent)
-
             }
         }
+
     }
 }

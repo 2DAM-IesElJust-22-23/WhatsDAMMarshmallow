@@ -2,7 +2,10 @@ package com.example.whatsdam
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityMessagesWindowBinding
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class MessagesWindow : AppCompatActivity() {
     private lateinit var binding: ActivityMessagesWindowBinding
@@ -17,28 +20,35 @@ class MessagesWindow : AppCompatActivity() {
         val messageText = binding.MessageText
         val recyclerView = binding.recyclerView
         recyclerView.adapter = MessageAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Capturar variables anteriores
         val nick = intent.getStringExtra("nickname")
         val server = intent.getStringExtra("server")
 
         // textView del estado de conexión
-        val connectionTextView = binding.connectionInfoTextView
-        connectionTextView.text = "Connect a $server com $nick"
+        val connectionInfoTextView = binding.connectionInfoTextView
+        connectionInfoTextView.text = "Connect a $server com $nick"
+
 
         sendMessage.setOnClickListener {
-            val newMessage = messageText.text.toString()
-            if (newMessage.isNotEmpty()) {
+            val message = messageText.text.toString().trim()
+            val hora = SimpleDateFormat("HH:mm").format(Date())
+
+            if (message.isNotEmpty()) {
+                // Add the message to the dataset
                 if (nick != null) {
-                    MessageDataSet.addMessage(nick, newMessage)
-                    adapter.notifyDataSetChanged()
-
-                    // Obtener el índice del último elemento
-                    val lastIndex = MessageDataSet.messages.size - 1
-
-                    // Hacer scroll automático al último elemento añadido
-                    recyclerView.smoothScrollToPosition(lastIndex)
+                    MessageDataSet.addMessage(nick, message, hora)
                 }
+
+                // Notify the adapter that the dataset has changed
+                adapter.notifyDataSetChanged()
+
+                // Clear the messageText EditText
+                messageText.text.clear()
+
+                // Optionally, scroll the RecyclerView to the last item
+                recyclerView.smoothScrollToPosition(adapter.itemCount - 1)
             }
         }
 

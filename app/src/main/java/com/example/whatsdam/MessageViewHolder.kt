@@ -1,26 +1,17 @@
-    package com.example.whatsdam
+package com.example.whatsdam
 
-    import android.view.View
-    import android.widget.TextView
-    import androidx.recyclerview.widget.RecyclerView
-    import com.example.myapplication.R
-    import java.text.DateFormat
-    import java.util.Date
+import android.view.View
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
 
-    class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val usernameTextView: TextView = itemView.findViewById(R.id.msg_text_usuari)
-        private val messageTextView: TextView = itemView.findViewById(R.id.msg_text)
-        private val timeTextView: TextView = itemView.findViewById(R.id.msg_time)
+class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val messageText: TextView = itemView.findViewById(R.id.msg_text)
+    private val timestampText: TextView = itemView.findViewById(R.id.msg_me_timestamp)
 
-        fun bind(message: Missatge) {
-            usernameTextView.text = message.usuari
-            messageTextView.text = message.text
-
-            // Obtener la hora actual y formatearla de manera localizada
-            val horaActual = Date()
-            val horaFormatada = DateFormat.getTimeInstance().format(horaActual)
-
-            // Asignar la hora formateada al TextView correspondiente
-            timeTextView.text = horaFormatada
-        }
+    fun bind(message: Missatge) {
+        messageText.text = message.text
+        timestampText.text = message.hora
     }
+}
+
