@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityMessagesWindowBinding
+import com.example.whatsdam.Viewmodels.MessageAdapter
+import com.example.whatsdam.model.MessageDataSet
 import java.text.SimpleDateFormat
 import java.util.Date
 
