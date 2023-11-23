@@ -1,5 +1,6 @@
 package com.ieseljust.psp.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.ieseljust.psp.client.communications.communicationManager;
@@ -46,12 +47,23 @@ public class mainLayoutController {
         userList.setItems(llistaUsuaris);
 
         // Gestio d'events: Clic en el botó d'enviar
-        sendBt.setOnMouseClicked((event) -> enviarMisstge());
+        sendBt.setOnMouseClicked((event) -> {
+            try {
+                enviarMisstge();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         // Enviem el missatge també quan es fa clic en ENTER
         message.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER)
-                enviarMisstge();
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    enviarMisstge();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
         });
 
@@ -81,7 +93,7 @@ public class mainLayoutController {
         }
     }
 
-    private void enviarMisstge() {
+    private void enviarMisstge() throws IOException {
 
         // Envia el missatge si no és en blanc i neteja l'àrea de text
         

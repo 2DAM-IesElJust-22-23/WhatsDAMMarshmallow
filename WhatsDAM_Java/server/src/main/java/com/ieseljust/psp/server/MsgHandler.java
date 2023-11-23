@@ -41,7 +41,7 @@ class MsgHandler implements Runnable {
             resposta.put("status", "ok");
 
         } catch (Exception e) {
-            resposta.put("error", e.getMessage());
+            resposta.put("status", "error");
         }
         return resposta;
 
@@ -54,9 +54,9 @@ class MsgHandler implements Runnable {
 
         // Recorre totes les connexions existents, i comprova si existeix
         // un usuari amb el mateix nom.
-        
+
         for (Connexio connexio : Connexions) {
-            System.out.println(connexio.toString());  
+            System.out.println(connexio.toString());
             if (MissatgeRebut.getString("user").equals(connexio.getUser())) {
                 // Si hi ha un usuari amb el mateix nom, retorna un missatge d'error
                 resposta.put("status", "error");
@@ -81,7 +81,7 @@ class MsgHandler implements Runnable {
         return resposta;
     }
 
-            
+
     private void sendResponse(JSONObject response) {
         try {
             PrintWriter writer = new PrintWriter(MySocket.getOutputStream(), true);
@@ -90,83 +90,82 @@ class MsgHandler implements Runnable {
             System.out.println("Error sending response: " + e.getMessage());
         }
     }
-    
+
     @Override
     public void run() {
         // Mètode que s'encarrega d'executar el fil
 
         // TO-DO
-            // Aquest mètode és el que s'encarregarà d'atendre cada petició i generar la
-            // resposta adequada.
+        // Aquest mètode és el que s'encarregarà d'atendre cada petició i generar la
+        // resposta adequada.
 
-            // Per a això
+        // Per a això
 
-            // 1. Llegirem les línies a través de l'InputStream del socket amb què s'ha
-            // obert la connexió (només se'ns passarà una línia per petició)
-            
-            /*
-             * 2. Una vegada tinguem la línia llegida, caldrà convertir-la a objecte JSON
-             * amb:
-             * 
-             * JSONObject MissatgeRebut = new JSONObject(linia);
-             * 
-             * Aquest objecte tindrà la forma
-             * 
-             * {"command": ordre_a_executar, ...}
-             *
-             * 
-             * per tant:
-             * 
-             * 3. Obtenim l'ordre (camp "command") del JSON per tal d'obtindre què ens
-             * demana el client.
-             * 
-             * Aquestes ordres podran ser:
-             * 
-             * - "register": Registra l'usuari al servidor, afegint-lo a la llista de connexions.
-             *               Tingueu en compte que ja disposeu d'un mètode RegisterUser en aquesta
-             *               cuasse que implementa aquesta funcionalitat.
-             *
-             * - "newMessage": Es rep un misstge per enviar a la resta de clients. Recordeu que
-             *                 també disposeu d'un mètode sendMessage que envía un missatge 
-             *                 a tots els clients.
-             * 
-             * Cada petició haurà de generar una resposta JSON amb el següent format:
-             * 
-             * {"status": "ok"} si tot és correcte, o 
-             * 
-             * {"status": "error", "error":"Missatge d'error"} 
-             * 
-             * i enviar-la, codificada en un string al client a través del socket.
-             * 
-             *  Consell: Implementar un mètode per atendre cada tipus de missatge, 
-             *           en lloc de fer-ho tot al case. 
-             * 
-             */
+        // 1. Llegirem les línies a través de l'InputStream del socket amb què s'ha
+        // obert la connexió (només se'ns passarà una línia per petició)
+
+        /*
+         * 2. Una vegada tinguem la línia llegida, caldrà convertir-la a objecte JSON
+         * amb:
+         *
+         * JSONObject MissatgeRebut = new JSONObject(linia);
+         *
+         * Aquest objecte tindrà la forma
+         *
+         * {"command": ordre_a_executar, ...}
+         *
+         *
+         * per tant:
+         *
+         * 3. Obtenim l'ordre (camp "command") del JSON per tal d'obtindre què ens
+         * demana el client.
+         *
+         * Aquestes ordres podran ser:
+         *
+         * - "register": Registra l'usuari al servidor, afegint-lo a la llista de connexions.
+         *               Tingueu en compte que ja disposeu d'un mètode RegisterUser en aquesta
+         *               cuasse que implementa aquesta funcionalitat.
+         *
+         * - "newMessage": Es rep un misstge per enviar a la resta de clients. Recordeu que
+         *                 també disposeu d'un mètode sendMessage que envía un missatge
+         *                 a tots els clients.
+         *
+         * Cada petició haurà de generar una resposta JSON amb el següent format:
+         *
+         * {"status": "ok"} si tot és correcte, o
+         *
+         * {"status": "error", "error":"Missatge d'error"}
+         *
+         * i enviar-la, codificada en un string al client a través del socket.
+         *
+         *  Consell: Implementar un mètode per atendre cada tipus de missatge,
+         *           en lloc de fer-ho tot al case.
+         *
+         */
+
         try {
-            //leer 
-            InputStream is=socket.getInputStream();
+            //leer
+            InputStream is=MySocket.getInputStream();
             InputStreamReader isr=new InputStreamReader(is);
             BufferedReader bf=new BufferedReader(isr);
-            String linia=bf.readLine();
+            String linia =bf.readLine();
 
-            JSONObject receivedMessage = new JSONObject(line);
+            JSONObject receivedMessage = new JSONObject(linia);
+            JSONObject respuesta = new JSONObject();
             String command = receivedMessage.getString("command");
             switch (command) {
                 case "register":
                     sendResponse(receivedMessage);
+                    respuesta.put("Status","ok");
                     break;
-            
+
                 case "newMessage":
-                    sendResponse(receivedMessage);
+
+                    respuesta=sendMessage(receivedMessage);
+
                     break;
             }
-            OutputStream os=socket.getOutputStream();
-            PrintWriter pw=new PrintWriter(os);
-            pw.write(resposta+"\n");
-            pw.flush();
-
-            pw.close();
-            os.close();
+            sendResponse(respuesta);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

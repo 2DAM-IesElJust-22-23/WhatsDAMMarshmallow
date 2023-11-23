@@ -1,11 +1,6 @@
 package com.ieseljust.psp.client.communications;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -23,7 +18,7 @@ public class communicationManager {
      comunicació amb el servidor.
      */
     
-    public static JSONObject sendServer(String msg) {
+    public static JSONObject sendServer(String msg) throws IOException {
 
         // TO-DO:
         // Envía al servidor l'string msg
@@ -39,7 +34,7 @@ public class communicationManager {
         OutputStream os= server.getOutputStream();
 
         InputStreamReader isr= new InputStreamReader(is);
-        OutputStreamReader osr= new OutputStream(os);
+        OutputStreamWriter osr= new OutputStreamWriter(os);
 
         BufferedReader br= new BufferedReader(isr);
         PrintWriter pr=new PrintWriter(osr);
@@ -47,7 +42,7 @@ public class communicationManager {
         pr.println(msg);
         pr.flush();
         String line=br.readLine();
-        JSObject resposta=new JSObject(line);
+        JSONObject resposta=new JSONObject(line);
         pr.close();
         br.close();
         isr.close();
@@ -58,7 +53,7 @@ public class communicationManager {
         return resposta;
     }
 
-    public static void connect() throws JSONException, communicationManagerException {
+    public static void connect() throws JSONException, communicationManagerException, IOException {
 
         // TO-DO:
 
@@ -84,7 +79,7 @@ public class communicationManager {
     
     }
 
-    public static void sendMessage(Message m){
+    public static void sendMessage(Message m) throws IOException {
         // Envia un misstge al servidor (es fa amb una línia!)
         sendServer(m.toJSON().toString());
     }    

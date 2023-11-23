@@ -18,6 +18,7 @@ import netscape.javascript.JSObject;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.util.List;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -70,42 +71,49 @@ public class serverListener implements Runnable {
         // no som un servidor com a tal, i el que estem fent aci, és mantindre un 
         // canal de recepció només amb el servidor.
         while (true) {
-            Socket s = listener.accept();
-            InputStream is=s.getInputStream();
-            InputStreamReader isr=new InputStreamReader(is);
-            BufferedReader br=new BufferedReader(isr);
+            try {
 
-            JSONObject json=new JSONObject(br.readLine());
+                Socket s = listener.accept();
+                InputStream is = s.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(isr);
 
-            String pregunta = json.getString("type");
-            JSONObject resposta=new JSONObject();
+                JSONObject json = new JSONObject(br.readLine());
 
-            switch (pregunta) {
-                case "userlist":
-                    ArrayList userlist = json.getJSONArray("content");
-                    ViewModel.updateUserList(userlist);
-                    resposta.put("status","ok");
-                    break;
-                case "message":
-                    String user=json.getString("user");
-                    String content=json.getString("content");
-                    Message msg = new Message(user,content);
-                    ViewModel.addMessage(msg);
-                    resposta.put("status","ok");
-                    break;
-                default:
-                    resposta.put("status","error");
-                    break;
-                
+                String pregunta = json.getString("type");
+                JSONObject resposta = new JSONObject();
+
+                switch (pregunta) {
+                    case "userlist":
+                        List userlist;
+                        JSONArray users = json.getJSONArray("content");
+                        userlist = users.toList();
+                        ViewModel.updateUserList((ArrayList<String>) userlist);
+                        resposta.put("status", "ok");
+                        break;
+                    case "message":
+                        String user = json.getString("user");
+                        String content = json.getString("content");
+                        Message msg = new Message(user, content);
+                        ViewModel.addMessage(msg);
+                        resposta.put("status", "ok");
+                        break;
+                    default:
+                        resposta.put("status", "error");
+                        break;
+
+                }
+                OutputStream os = s.getOutputStream();
+                PrintWriter pw = new PrintWriter(os);
+                pw.write(resposta + "\n");
+                pw.flush();
+                pw.close();
+                os.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            OutputStream os = s.getOutputStream();
-            PrintWriter pw=new PrintWriter(os);
-            pw.write(resposta+"\n");
-            pw.flush();
-            pw.close();
-            os.close();
-            
-            
+
+
         }
 
         

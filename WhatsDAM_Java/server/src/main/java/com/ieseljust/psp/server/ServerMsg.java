@@ -44,12 +44,13 @@ public class ServerMsg  extends Thread {
             try {
                 Socket socket = listener.accept();
                 System.out.println("S'ha rebut la connexió");
-    
+
                 // Creem un nou thread per atendre la petició
-                MsgHandler handler = new MsgHandler(socket);
+                MsgHandler handler = new MsgHandler(socket,null);
+
                 new Thread(handler).start();
             } catch (IOException e) {
-                
+
                 System.out.println("Error al acceptar la connexió");
             }
         }
@@ -69,7 +70,7 @@ public class ServerMsg  extends Thread {
         // Associem les connexions a les connexions
         // del Notificador.
         Notifier.setConnexions(Connexions);
-        
+
 
         // Abans de llançar el servidor,
         // llancem un fil, que cada segon
@@ -79,7 +80,7 @@ public class ServerMsg  extends Thread {
 
         // Ho fem directament, sense una classe runnable,
         // a través d'una subclasse anònima:
-        
+
         Thread thread = new Thread() {
             public void run() {
                 while (true) {
@@ -95,7 +96,7 @@ public class ServerMsg  extends Thread {
         };
         thread.start();
 
-        
+
         // Llancem el servidor per a que escolte
         // i atenga les peticions
         ServerMsg.listen(srvPort);
