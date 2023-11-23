@@ -3,6 +3,7 @@ package com.ieseljust.psp.client.communications;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.Objects;
 
 import com.ieseljust.psp.client.CurrentConfig;
 import com.ieseljust.psp.client.Message;
@@ -72,15 +73,15 @@ public class communicationManager {
         JSONObject json= new JSONObject();
         json.put("command","register");
         json.put("user",CurrentConfig.username());
-        json.put("port",CurrentConfig.listenPort());
+        json.put("listenPort",CurrentConfig.listenPort());
 
-        JSONObject resposta = sendServer(json.toString());
+        sendServer(json.toString());
 
     
     }
 
     public static void sendMessage(Message m) throws IOException {
         // Envia un misstge al servidor (es fa amb una línia!)
-        sendServer(m.toJSON().toString());
+        sendServer(m.toJSONCommand().toString());
     }    
 }

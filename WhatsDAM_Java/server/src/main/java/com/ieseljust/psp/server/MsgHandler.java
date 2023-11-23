@@ -155,6 +155,7 @@ class MsgHandler implements Runnable {
             String command = receivedMessage.getString("command");
             switch (command) {
                 case "register":
+                    registerUser(receivedMessage);
                     sendResponse(receivedMessage);
                     respuesta.put("Status","ok");
                     break;

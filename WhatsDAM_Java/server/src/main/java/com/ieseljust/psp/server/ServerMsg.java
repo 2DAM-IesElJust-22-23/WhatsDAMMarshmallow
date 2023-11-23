@@ -46,7 +46,7 @@ public class ServerMsg  extends Thread {
                 System.out.println("S'ha rebut la connexió");
 
                 // Creem un nou thread per atendre la petició
-                MsgHandler handler = new MsgHandler(socket,null);
+                MsgHandler handler = new MsgHandler(socket,Connexions);
 
                 new Thread(handler).start();
             } catch (IOException e) {

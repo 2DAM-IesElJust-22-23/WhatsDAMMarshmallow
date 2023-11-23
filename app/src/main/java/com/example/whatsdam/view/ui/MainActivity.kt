@@ -1,4 +1,4 @@
-package com.example.whatsdam
+package com.example.whatsdam.view.ui
 
 import android.content.Intent
 import android.net.InetAddresses.isNumericAddress
@@ -6,10 +6,14 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import com.example.myapplication.communications.CommunicationManager
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.whatsdam.repositori.MessagesRepository
 
 class MainActivity : AppCompatActivity() {
+    val repository= MessagesRepository.getInstance()
     private lateinit var binding:ActivityMainBinding
+
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +30,8 @@ class MainActivity : AppCompatActivity() {
 
             if (nick!="" && isNumericAddress(ipstr)){
                 val intent = Intent(baseContext, MessagesWindow::class.java)
-                intent.putExtra("server",ipstr)
-                intent.putExtra("nickname",nick)
+                repository.username=nick
+                repository.server=ipstr
                 startActivity(intent)
             }
         }
